@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "loglevel": "^1.8.1",
+    "tsyringe": "^4.7.0"
+  }
+}

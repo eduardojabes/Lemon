@@ -1,3 +1,4 @@
+import { CpuInfo, type } from "os"
 import { cpf } from "../../models/tipos"
 
 export function isValidCPF(inputCPF: string) {

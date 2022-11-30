@@ -1,5 +1,5 @@
 export const cpf = {
-    type: 'string',
+    type: 'number',
     pattern: '^\\d{11}$',
     example: '21554495008',
 }

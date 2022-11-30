@@ -7,6 +7,7 @@ import { isValidCNPJ }from "./services/IsValidCNPJ";
 import { isValidTipoDeConexao } from "./services/isValidTipoDeConexao";
 import { isValidClasseDeConsumo } from "./services/isValidClasseDeConsumo";
 import { isValidModalidadeTarifaria } from "./services/isValidModalidadeTarifaria"
+import { getMean } from "./services/getMean"
 
 test('CPF Válido', () => {
     const CPF = '40534713890';
@@ -74,4 +75,19 @@ test('Tipos de Modalidade Tarifária Válidos', () => {
 test('Tipos de Modalidade Tarifária Inválida', () => {
     const modalidadeTarifaria = 'colorida';
     expect(isValidModalidadeTarifaria(modalidadeTarifaria)).toBe(false)
+})
+
+test('GetMean', () => {
+    const consume = [100, 200, 150, 250, 300];
+    expect(getMean(consume)).toBe(200);
+})
+
+test('GetMean - More than 12 months', () => {
+    const consume = [100, 200, 150, 250, 300, 100, 300, 100, 300, 100, 300, 200, 100];
+    expect(getMean(consume)).toBe(200);
+})
+
+test('GetMean - Error', () => {
+    const consume = [100, 200];
+    expect(getMean(consume)).toBe(0);
 })

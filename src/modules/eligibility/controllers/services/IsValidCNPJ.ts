@@ -4,7 +4,7 @@ export function isValidCNPJ(inputCNPJ: string) {
 
     const validationArray = [2,3,4,5,6,7,8,9,2,3,4,5,6];
     
-    if (typeof inputCNPJ !== 'string') return false
+    if (typeof inputCNPJ !== cnpj.type) return false
     
     inputCNPJ = inputCNPJ.replace(/[^\d]+/g, '') //Delte caracters that was not number
     

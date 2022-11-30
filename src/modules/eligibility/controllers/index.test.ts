@@ -1,7 +1,12 @@
 import {expect, test} from '@jest/globals';
 
+import { tiposDeConexao, classesDeConsumo, modalidadesTarifarias } from "../models/tipos"
+
 import { isValidCPF } from './services/IsValidCPF';
 import { isValidCNPJ }from "./services/IsValidCNPJ";
+import { isValidTipoDeConexao } from "./services/isValidTipoDeConexao";
+import { isValidClasseDeConsumo } from "./services/isValidClasseDeConsumo";
+import { isValidModalidadeTarifaria } from "./services/isValidModalidadeTarifaria"
 
 test('CPF Válido', () => {
     const CPF = '40534713890';
@@ -41,4 +46,32 @@ test('CNPJ Inválido - Números Repetidos', () => {
 test('CNPJ Inválido - Tamanho incorreto', () => {
     const CNPJ = '3350068900109'; 
     expect(isValidCNPJ(CNPJ)).toBe(false);
+})
+
+test('Tipos de Conexões Válidos', () => {
+    tiposDeConexao.map((Conexao: string) => expect(isValidTipoDeConexao(Conexao)).toBe(true));
+})
+
+test('Tipos de Conexões Inválido', () => {
+    const Conexao = 'quadrifásico';
+    expect(isValidTipoDeConexao(Conexao)).toBe(false)
+
+})
+
+test('Tipos de Classes De Consumo Válidas', () => {
+    classesDeConsumo.map((classesDeConsumo: string) => expect(isValidClasseDeConsumo(classesDeConsumo)).toBe(true));
+})
+
+test('Tipos de Classes De Consumo Inválidas', () => {
+    const classesDeConsumo = 'marciana';
+    expect(isValidClasseDeConsumo(classesDeConsumo)).toBe(false)
+})
+
+test('Tipos de Modalidade Tarifária Válidos', () => {
+    modalidadesTarifarias.map((modalidadeTarifaria: string) => expect(isValidModalidadeTarifaria(modalidadeTarifaria)).toBe(true));
+})
+
+test('Tipos de Modalidade Tarifária Inválida', () => {
+    const modalidadeTarifaria = 'colorida';
+    expect(isValidModalidadeTarifaria(modalidadeTarifaria)).toBe(false)
 })

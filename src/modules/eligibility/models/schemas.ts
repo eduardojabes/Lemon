@@ -1,6 +1,6 @@
 import { tiposDeConexao, classesDeConsumo, modalidadesTarifarias, cpf, cnpj } from './tipos'
 
-const enumOf = (values: any[]) => ({
+export const enumOf = (values: any[]) => ({
   type: typeof values[0],
   enum: values,
   example: values[0],

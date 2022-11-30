@@ -13,10 +13,12 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./src",
     "paths": {
       "@startup": ["./bootstrap/startup"],
+      "@modules/*": ["./modules/*"],
       "@shared/*": ["./shared/*"]
     }
   },

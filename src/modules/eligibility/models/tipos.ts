@@ -1,20 +1,18 @@
-export {};
-
-const cpf = {
+export const cpf = {
     type: 'string',
     pattern: '^\\d{11}$',
     example: '21554495008',
 }
   
-const cnpj = {
+export const cnpj = {
     type: 'string',
     pattern: '^\\d{14}$',
     example: '33400689000109',
 }
   
-const tiposDeConexao = ['monofasico', 'bifasico', 'trifasico']
+export const tiposDeConexao = ['monofasico', 'bifasico', 'trifasico']
   
-const classesDeConsumo = [
+export const classesDeConsumo = [
     'residencial',
     'industrial',
     'comercial',
@@ -22,12 +20,5 @@ const classesDeConsumo = [
     'poderPublico',
   ]
   
-const modalidadesTarifarias = ['azul', 'branca', 'verde', 'convencional']
+export const modalidadesTarifarias = ['azul', 'branca', 'verde', 'convencional']
   
-module.exports = {
-    tiposDeConexao,
-    classesDeConsumo,
-    modalidadesTarifarias,
-    cpf,
-    cnpj,
- }

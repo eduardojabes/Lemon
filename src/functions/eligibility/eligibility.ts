@@ -16,27 +16,27 @@ export async function handler(inputData: FromSchema<typeof input>): Promise<From
       var outputData: FromSchema<typeof output>
       var reasons: FromSchema<typeof razoesDeInelegibilidade> = [];
         
-      //Error Treatment for Input Data (NO PROCESSING IF ERRORd)
+      //Error Treatment for Input Data (NO PROCESSING IF ERROR)
       if (!EligibilityController.isValidCNPJ(inputData.numeroDoDocumento) && !EligibilityController.isValidCPF(inputData.numeroDoDocumento)){
-        logger.warn(`Document: ${inputData.numeroDoDocumento} is invalid`);
+        logger.warn(`Document: ${inputData.numeroDoDocumento} is invalid`, inputData.numeroDoDocumento);
         outputData = { elegivel: false, razoesDeInelegibilidade: ['Dados Inválidos']};
         return outputData
       }
 
       if (!EligibilityController.isValidModalidadeTarifaria(inputData.modalidadeTarifaria as string)){
-        logger.warn(`Modalidade Tarifaria: ${inputData.modalidadeTarifaria} is invalid`);
+        logger.warn(`Modalidade Tarifaria: ${inputData.modalidadeTarifaria} is invalid`, inputData.numeroDoDocumento);
         outputData = { elegivel: false, razoesDeInelegibilidade: ['Dados Inválidos']};
         return outputData
       }
       
       if (!EligibilityController.isValidClasseDeConsumo(inputData.classeDeConsumo as string)){
-        logger.warn(`Classe de Consumo: ${inputData.modalidadeTarifaria} is invalid`);
+        logger.warn(`Classe de Consumo: ${inputData.modalidadeTarifaria} is invalid`, inputData.numeroDoDocumento);
         outputData = { elegivel: false, razoesDeInelegibilidade: ['Dados Inválidos']};
         return outputData
       }
 
       if (!EligibilityController.isValidTipoDeConexao(inputData.tipoDeConexao as string)){
-        logger.warn(`Tipo de Conexão: ${inputData.modalidadeTarifaria} is invalid`);
+        logger.warn(`Tipo de Conexão: ${inputData.modalidadeTarifaria} is invalid`, inputData.numeroDoDocumento);
         outputData = { elegivel: false, razoesDeInelegibilidade: ['Dados Inválidos']};
         return outputData
       }
@@ -44,20 +44,22 @@ export async function handler(inputData: FromSchema<typeof input>): Promise<From
       //Verifying Eligibility
 
       if(!modalidadesTarifariasElegiveis.includes(inputData.modalidadeTarifaria as string)){
-        logger.warn(`Modalidade Tarifaria não aceita: ${inputData.modalidadeTarifaria} is invalid`);
+        logger.warn(`Modalidade Tarifaria não aceita: ${inputData.modalidadeTarifaria} is invalid`, inputData.numeroDoDocumento);
         reasons.push('Modalidade tarifária não aceita')
       }
 
 
       if(!classesDeConsumoElegiveis.includes(inputData.classeDeConsumo  as string)){
-        logger.warn(`Classe de Consumo não aceita: ${inputData.classeDeConsumo } is invalid`);
+        logger.warn(`Classe de Consumo não aceita: ${inputData.classeDeConsumo } is invalid`, inputData.numeroDoDocumento);
         reasons.push('Classe de consumo não aceita')
       }
       const meanConsumption = EligibilityController.getMean(inputData.historicoDeConsumo);
       const minimumConsumption = consumosElegiveis.get(inputData.tipoDeConexao as string) || input.properties.historicoDeConsumo.items.maximum
-      
+     
+      logger.debug(`Mean: ${meanConsumption}| Minimun: ${minimumConsumption}`, inputData.numeroDoDocumento);
+     
       if(meanConsumption < minimumConsumption ){
-        logger.warn(`Consumo muito baixo para tipo de conexão: ${inputData.tipoDeConexao}: ${meanConsumption}`);
+        logger.warn(`Consumo muito baixo para tipo de conexão: ${inputData.tipoDeConexao}: ${meanConsumption}`, inputData.numeroDoDocumento);
         reasons.push('Consumo muito baixo para tipo de conexão')
       }
 

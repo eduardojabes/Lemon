@@ -1,6 +1,6 @@
 import {expect, test} from '@jest/globals';
 
-import { tiposDeConexao, classesDeConsumo, modalidadesTarifarias } from "../models/tipos"
+import { tiposDeConexao, classesDeConsumo, modalidadesTarifarias, consumosElegiveis} from "../models/tipos"
 
 import { isValidCPF } from './services/IsValidCPF';
 import { isValidCNPJ }from "./services/IsValidCNPJ";
@@ -85,6 +85,11 @@ test('GetMean', () => {
 test('GetMean - More than 12 months', () => {
     const consume = [100, 200, 150, 250, 300, 100, 300, 100, 300, 100, 300, 200, 100];
     expect(getMean(consume)).toBe(200);
+})
+
+test('GetMean - More than 12 months', () => {
+    const consume = Array(5).fill((consumosElegiveis.get('trifasico') || 20) - 10)
+    expect(getMean(consume)).toBe(740);
 })
 
 test('GetMean - Error', () => {

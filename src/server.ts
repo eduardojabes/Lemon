@@ -19,6 +19,7 @@ function Server(){
             console.log('0')
             if (!body){
                 response.writeHead(400, {'Content-Type': 'application/json'})
+                response.write(JSON.stringify('Internal Server Error'));
                 response.end();
                 return
             }
@@ -38,7 +39,13 @@ function Server(){
                 response.write(JSON.stringify(responseBody));
                 response.end();
                 });
-            } catch(error){ console.log(`Error handler:`, error as Error);}
+            } catch(error){ 
+                console.log(`Error handler:`, error as Error);
+                response.writeHead(400, {'Content-Type': 'application/json'})
+                response.write(JSON.stringify('Internal Server Error'));
+                response.end();
+                return
+            }
         })
     }).listen(8080);
 }

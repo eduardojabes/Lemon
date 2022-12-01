@@ -12,6 +12,23 @@ Este serviço apresenta uma única rota: http://127.0.0.1:8080/
 
 Sua estrutura foi formatada de forma a poder atuar como uma função AWS Lambda, sendo necessário apenas configurar o GitAction e o Serverless para deploy automático da aplicaçao.
 
+## Critérios de Elegibilidade
+
+Para checar a elegibilidade iremos aplicar os seguintes critérios:
+
+- Classe de consumo da cliente
+    - Possíveis Valores: Comercial, Residencial, Industrial, Poder Público, e Rural.
+    - Elegíveis: Comercial, Residencial e Industrial.
+- Modalidade tarifária
+    - Possíveis Valores: Branca, Azul, Verde, e Convencional.
+    - Elegíveis: Convencional, Branca.
+- Consumo mínimo do cliente
+    - O cálculo deve ser feito utilizando a média dos 12 valores mais recentes do histórico de consumo.
+        - Clientes com tipo de conexão Monofásica só são elegíveis caso tenham consumo médio acima de 400 kWh.
+        - Clientes com tipo de conexão Bifásica só são elegíveis caso tenham consumo médio acima de 500 kWh.
+        - Clientes com tipo de conexão Trifásica só são elegíveis caso tenham consumo médio acima de 750 kWh.
+- Para calcular a projeção da **economia anual** de CO2, considere que para serem gerados 1000 kWh no Brasil são emitidos em média 84kg de CO2.
+
 ### POST Elegível
 
     Request body:
@@ -107,7 +124,7 @@ $ curl -k -X POST 'http://127.0.0.1:8080/' -H 'Content-Type: application/json' -
   "modalidadeTarifaria": "convencional",
   "historicoDeConsumo": [3878, 9760, 5976, 2797, 2481, 5731, 7538, 4392, 7859, 4160, 6941, 4597]}'
 ```
-## FUNCIONALIDADES
+##  Funcionalidades
 
 Para melhor validação das requisições foram implementadas:
 - Verificação do CPF com uso de algoritmo de verificação dos dígitos validadores

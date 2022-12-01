@@ -8,7 +8,7 @@ import {input, output,razoesDeInelegibilidade} from "../../modules/eligibility/m
 import { classesDeConsumoElegiveis, modalidadesTarifariasElegiveis, consumosElegiveis, tiposDeConexao} from "../../modules/eligibility/models/tipos"
 
 
-export default async function eligibilityHandler(inputData: FromSchema<typeof input>): Promise<FromSchema<typeof output>>{
+export async function eligibilityHandler(inputData: FromSchema<typeof input>): Promise<FromSchema<typeof output>>{
   const logger = container.resolve<ILogger>('logger');
   try{
       await startup();

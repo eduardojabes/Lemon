@@ -1,8 +1,9 @@
 {
-  "type": "module",
   "scripts": {
     "test": "jest --no-cache",
-    "clear-test": "jest --clearCache"
+    "clear-test": "jest --clearCache",
+    "dev": "nodemon --exec 'ts-node --cache-directory .tscache' ./src/server.ts",
+    "start": "ts-node ./src/server.ts"
   },
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.18.6",

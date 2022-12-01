@@ -12,8 +12,6 @@ export function isValidCNPJ(inputCNPJ: FromSchema<typeof cnpj>) {
     if (inputCNPJ.length !== 14 || !!inputCNPJ.match(/(\d)\1{13}/)) return false //If there isnt 14 digits or all numbers are repeated
     
     let CNPJDigits = inputCNPJ.split('').map(el => +el) //Add the number itself for that position
-    
-    console.log(CNPJDigits)
 
     const rest = (count: number) => (CNPJDigits.slice(0, count-1)
         .reduce( (soma, el, index) => (soma + el * validationArray[count - index - 2]), 0 )*10) % 11 % 10 //Verify CNPJ

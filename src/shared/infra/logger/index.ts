@@ -1,4 +1,4 @@
-import logLevel from '@shared/infra/logger/implementations/logLevel';
+import logLevel from './implementations/logLevel';
 
 const logger = logLevel;
 

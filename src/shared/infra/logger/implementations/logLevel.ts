@@ -1,21 +1,16 @@
 import logLevel from 'loglevel';
-import { inject, injectable } from 'tsyringe';
+import { injectable } from 'tsyringe';
 
-import ILogger from '@shared/infra/logger/interfaces/logger';
-import ISentry from '@shared/infra/sentry/interfaces';
-
+import ILogger from '../interfaces/logger';
 @injectable()
 class LogLevel implements ILogger {
   private prefix: string;
 
   private logger: logLevel.RootLogger;
 
-  constructor(
-    @inject('sentry')
-    private sentry: ISentry
-  ) {
+  constructor() {
     this.logger = logLevel;
-    this.prefix = '[ELEMENTAL-PROXY]';
+    this.prefix = '[LEMON]';
   }
 
   setLevel(level: 'error' | 'warn' | 'info' | 'debug'): void {
@@ -36,12 +31,10 @@ class LogLevel implements ILogger {
 
   error(msg: string, ...data: any[]): void {
     this.logger.error(this.prefix, msg, data);
-    this.sentry.log('error', msg, data);
   }
 
   fatal(msg: string, error: Error): void {
     this.logger.error(this.prefix, msg, error);
-    this.sentry.fatal(error);
   }
 
   warn(msg: string, ...data: any[]): void {

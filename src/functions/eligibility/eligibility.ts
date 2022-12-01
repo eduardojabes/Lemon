@@ -1,14 +1,14 @@
-import { startup } from '@startup';
+import { startup } from '../../bootstrap/startup';
 import { container } from 'tsyringe';
 import { FromSchema } from "json-schema-to-ts";
-import ILogger from '@shared/infra/logger/interfaces/logger';
+import ILogger from '../../shared/infra/logger/interfaces/logger';
 
 import EligibilityController from "../../modules/eligibility/controllers"
 import {input, output,razoesDeInelegibilidade} from "../../modules/eligibility/models/schemas"
 import { classesDeConsumoElegiveis, modalidadesTarifariasElegiveis, consumosElegiveis, tiposDeConexao} from "../../modules/eligibility/models/tipos"
 
 
-async function handler(inputData: FromSchema<typeof input>): Promise<FromSchema<typeof output>>{
+export async function handler(inputData: FromSchema<typeof input>): Promise<FromSchema<typeof output>>{
   const logger = container.resolve<ILogger>('logger');
   try{
       await startup();
@@ -51,8 +51,7 @@ async function handler(inputData: FromSchema<typeof input>): Promise<FromSchema<
 
       if(!classesDeConsumoElegiveis.includes(inputData.classeDeConsumo  as string)){
         logger.warn(`Classe de Consumo não aceita: ${inputData.classeDeConsumo } is invalid`);
-        //outputData = { elegivel: false, razoesDeInelegibilidade: [...]};
-        //reasons.push('Classe de consumo não aceita')
+        reasons.push('Classe de consumo não aceita')
       }
       const meanConsumption = EligibilityController.getMean(inputData.historicoDeConsumo);
       const minimumConsumption = consumosElegiveis.get(inputData.tipoDeConexao as string) || input.properties.historicoDeConsumo.items.maximum
@@ -67,7 +66,7 @@ async function handler(inputData: FromSchema<typeof input>): Promise<FromSchema<
           return outputData;
       }
 
-      outputData = {elegivel: true, economiaAnualDeCO2: meanConsumption * 0.084}
+      outputData = {elegivel: true, economiaAnualDeCO2: Math.round(meanConsumption * 84)/1000}
       return outputData
 
   }catch (error) {

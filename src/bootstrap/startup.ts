@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import 'dotenv/config';
-import '@shared/providers';
+import '../shared/providers';
 import { container } from 'tsyringe';
 
 import ILogger, { LoggerLevel } from '@shared/infra/logger/interfaces/logger';

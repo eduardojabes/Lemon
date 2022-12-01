@@ -1,7 +1,7 @@
 import {expect, test} from '@jest/globals'
 import { FromSchema } from "json-schema-to-ts";
 
-import {handler} from './eligibility/eligibility'
+import {eligibilityHandler} from './eligibility/eligibility'
 import {input, output,razoesDeInelegibilidade} from "../modules/eligibility/models/schemas"
 import {consumosElegiveis} from "../modules/eligibility/models/tipos"
 
@@ -22,7 +22,7 @@ test('Valid CPF Handler', () => {
         economiaAnualDeCO2: 58.8
     }
     
-    const outputData = handler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
+    const outputData = eligibilityHandler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
 })
 
 test('Valid CNPJ Handler', () => {
@@ -41,7 +41,7 @@ test('Valid CNPJ Handler', () => {
         economiaAnualDeCO2: 58.8
     }
     
-    const outputData = handler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
+    const outputData = eligibilityHandler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
 })
 
 test('Invalid CPF', () => {
@@ -60,7 +60,7 @@ test('Invalid CPF', () => {
         razoesDeInelegibilidade: ['Dados Inválidos'],
     }
     
-    const outputData = handler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
+    const outputData = eligibilityHandler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
 })
 
 test('Invalid CNPJ', () => {
@@ -79,7 +79,7 @@ test('Invalid CNPJ', () => {
         razoesDeInelegibilidade: ['Dados Inválidos'],
     }
     
-    const outputData = handler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
+    const outputData = eligibilityHandler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
 })
 
 test('Invalid Tipo de Conexao', () => {
@@ -98,7 +98,7 @@ test('Invalid Tipo de Conexao', () => {
         razoesDeInelegibilidade: ['Dados Inválidos'],
     }
     
-    const outputData = handler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
+    const outputData = eligibilityHandler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
 })
 
 test('Invalid Classe de Consumo', () => {
@@ -117,7 +117,7 @@ test('Invalid Classe de Consumo', () => {
         razoesDeInelegibilidade: ['Dados Inválidos'],
     }
     
-    const outputData = handler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
+    const outputData = eligibilityHandler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
 })
 
 test('Invalid Modalidade Tarifaria', () => {
@@ -136,7 +136,7 @@ test('Invalid Modalidade Tarifaria', () => {
         razoesDeInelegibilidade: ['Dados Inválidos'],
     }
     
-    const outputData = handler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
+    const outputData = eligibilityHandler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
 })
 
 test('All Invalid', () => {
@@ -155,7 +155,7 @@ test('All Invalid', () => {
         razoesDeInelegibilidade: ['Modalidade tarifária não aceita', 'Classe de consumo não aceita', 'Consumo muito baixo para tipo de conexão'],
     }
     
-    const outputData = handler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
+    const outputData = eligibilityHandler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
 })
 
 test('Acepted Modalidade Tarifaria', () => {
@@ -174,7 +174,7 @@ test('Acepted Modalidade Tarifaria', () => {
         razoesDeInelegibilidade: ['Classe de consumo não aceita', 'Consumo muito baixo para tipo de conexão'],
     }
     
-    const outputData = handler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
+    const outputData = eligibilityHandler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
 })
 
 test('Acepted Classe de Consumo', () => {
@@ -193,7 +193,7 @@ test('Acepted Classe de Consumo', () => {
         razoesDeInelegibilidade: ['Modalidade tarifária não aceita', 'Consumo muito baixo para tipo de conexão'],
     }
     
-    const outputData = handler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
+    const outputData = eligibilityHandler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
 })
 
 test('Acepted Consumption', () => {
@@ -212,7 +212,7 @@ test('Acepted Consumption', () => {
         razoesDeInelegibilidade: ['Modalidade tarifária não aceita', 'Classe de consumo não aceita'],
     }
     
-    const outputData = handler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
+    const outputData = eligibilityHandler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
 })
 
 test('Only Low Consumption', () => {
@@ -231,7 +231,7 @@ test('Only Low Consumption', () => {
         razoesDeInelegibilidade: ['Consumo muito baixo para tipo de conexão'],
     }
     
-    const outputData = handler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
+    const outputData = eligibilityHandler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
 })
 
 test('Only Wrong Classe de consumo', () => {
@@ -250,7 +250,7 @@ test('Only Wrong Classe de consumo', () => {
         razoesDeInelegibilidade: ['Classe de consumo não aceita'],
     }
     
-    const outputData = handler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
+    const outputData = eligibilityHandler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
 })
 
 test('Only Wrong Modalidade Tarifaria', () => {
@@ -269,5 +269,5 @@ test('Only Wrong Modalidade Tarifaria', () => {
         razoesDeInelegibilidade: ['Modalidade tarifária não aceita'],
     }
     
-    const outputData = handler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
+    const outputData = eligibilityHandler(inputData).then((response) => expect(response).toStrictEqual(expectedOutputData));    
 })

@@ -1,10 +1,12 @@
 import { tiposDeConexao, classesDeConsumo, modalidadesTarifarias, cpf, cnpj } from './tipos'
+import { writeFileSync } from 'fs'
 
-export const enumOf = (values: any) => ({
-  type: ['string','number','boolean'],
+
+export const enumOf = (values: any[]) => ({
+  type: 'string',
   enum: values,
   example: values[0],
-} as const) 
+}) as const
 
 export const input = {
   type: 'object',
@@ -32,23 +34,7 @@ export const input = {
       },
     },
   },
-} as const
-
-
-export const razoesDeInelegibilidade = {
-  type: 'array',
-  uniqueItems: true,
-  items: {
-    type: 'string',
-    enum: [
-      'Classe de consumo não aceita',
-      'Modalidade tarifária não aceita',
-      'Consumo muito baixo para tipo de conexão',
-      'Dados Inválidos',
-      'Server Error'
-    ],
-  },
-} as const
+}
 
 export const output = {
   oneOf: [
@@ -67,8 +53,26 @@ export const output = {
       required: ['elegivel', 'razoesDeInelegibilidade'],
       properties: {
         elegivel: enumOf([false]), // always false
-        razoesDeInelegibilidade: razoesDeInelegibilidade,
+        razoesDeInelegibilidade: {
+          type: 'array',
+          uniqueItems: true,
+          items: {
+            type: 'string',
+            enum: [
+              'Classe de consumo não aceita',
+              'Modalidade tarifária não aceita',
+              'Consumo muito baixo para tipo de conexão',
+            ],
+          },
+        },
       },
     },
   ],
-} as const
+}
+
+async function generate() {
+  writeFileSync('input.ts', await compile(input , 'Input'))
+  writeFileSync('output.ts', await compile(output, 'Output'))
+}
+
+generate()

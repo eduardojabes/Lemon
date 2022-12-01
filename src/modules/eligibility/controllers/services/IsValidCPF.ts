@@ -1,7 +1,8 @@
-import { CpuInfo, type } from "os"
+import { FromSchema } from "json-schema-to-ts";
 import { cpf } from "../../models/tipos"
 
-export function isValidCPF(inputCPF: string) {
+export function isValidCPF(inputCPF: FromSchema<typeof cpf>) {
+    
     if (typeof inputCPF !== cpf.type) return false
     
     inputCPF = inputCPF.replace(/[^\d]+/g, '') //Delte caracters that was not number

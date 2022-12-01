@@ -1,7 +1,8 @@
+import { FromSchema } from "json-schema-to-ts";
 import { cnpj } from "../../models/tipos"
 
-export function isValidCNPJ(inputCNPJ: string) {
-
+export function isValidCNPJ(inputCNPJ: FromSchema<typeof cnpj>) {
+    
     const validationArray = [2,3,4,5,6,7,8,9,2,3,4,5,6];
     
     if (typeof inputCNPJ !== cnpj.type) return false

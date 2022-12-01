@@ -1,4 +1,5 @@
-import { tiposDeConexao, classesDeConsumo, modalidadesTarifarias } from "../models/tipos"
+import { FromSchema } from "json-schema-to-ts";
+import { cpf, cnpj, tiposDeConexao, classesDeConsumo, modalidadesTarifarias } from "../models/tipos"
 
 import { isValidCPF } from './services/IsValidCPF';
 import { isValidCNPJ }from "./services/IsValidCNPJ";
@@ -8,9 +9,9 @@ import { isValidModalidadeTarifaria } from "./services/isValidModalidadeTarifari
 import { getMean } from "./services/getMean"
 
 export default {
-    isValidCPF: (inputCPF: string) => isValidCPF(inputCPF),
+    isValidCPF: (inputCPF: FromSchema<typeof cpf>) => isValidCPF(inputCPF),
 
-    isValidCNPJ: (inputCNPJ: string) => isValidCNPJ(inputCNPJ),
+    isValidCNPJ: (inputCNPJ: FromSchema<typeof cnpj>) => isValidCNPJ(inputCNPJ),
 
     isValidTipoDeConexao: (inputTipoDeConexao: typeof tiposDeConexao[0]) => isValidTipoDeConexao(inputTipoDeConexao),
 
